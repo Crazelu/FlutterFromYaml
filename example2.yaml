@@ -1,0 +1,56 @@
+StatefulWidget:
+  name: MyHomePage
+  state:
+    name: counter
+    type: int
+    defaultValue: 0
+    methods:
+      increment: "counter.value += 1;"
+      decrement: "counter.value -= 1;"
+    onDispose: 
+      - "counter.dispose();"
+  build:
+    Scaffold:
+      appBar:
+        title: 
+          value: "YAML Demo"
+      floatingActionButton:
+        child:
+          Row:
+            children:
+              - GestureDetector:
+                  onTap: "decrement();"
+                  child:
+                    Icon:
+                      iconData:
+                        codePoint: 0xe516
+              - SizedBox:
+                    width: 12
+              - GestureDetector:
+                  onTap: "increment();"
+                  child:
+                    Icon:
+                      iconData:
+                        codePoint: 0xe047
+      body:
+        Center:
+          child:
+            Column:
+              mainAxisAlignment: center
+              children:
+                - Text:
+                    value: "''Hello from Yaml\nYou've pressed this button''"
+                    textAlign: center
+                    style:
+                      fontSize: 24
+                      fontWeight: 500
+                - SizedBox:
+                    height: 12
+                - ReactiveBuilder:
+                    value: "@@state.reactive" #This will be injected
+                    child:
+                      Text:
+                        value: "${counter.value} times"
+                        style:
+                          fontSize: 20
+                          fontWeight: 400

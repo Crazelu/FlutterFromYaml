@@ -1,0 +1,22 @@
+StatelessWidget:
+  name: MyHomePage
+  build:
+    Scaffold:
+      appBar:
+        title: 
+          value: "YAML Demo"
+      floatingActionButton:
+        child:
+          Icon:
+            iconData:
+              codePoint: 0xe047
+      body:
+        Center:
+          child:
+            Column:
+              mainAxisAlignment: center
+              children:
+                - Text:
+                    value: "Hello from Yaml"
+                - Text:
+                    value: "This was generated from YAML"
