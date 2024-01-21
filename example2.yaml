@@ -13,7 +13,8 @@ StatefulWidget:
     Scaffold:
       appBar:
         title: 
-          value: "YAML Demo"
+          Text:
+            value: "YAML Demo"
       floatingActionButton:
         child:
           Row:
@@ -53,4 +54,3 @@ StatefulWidget:
                         value: "${counter.value} times"
                         style:
                           fontSize: 20
-                          fontWeight: 400

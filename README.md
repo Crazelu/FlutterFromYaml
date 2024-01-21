@@ -1,4 +1,4 @@
-# flutter_from_yaml
+# FlutterFromYaml
 
 An experiment born out of a simple curious question: *What if you could build a screen in Flutter code using yaml?*
 
