@@ -1,21 +1,21 @@
 import 'package:flutter_from_yaml/parsers/json_ui_util.dart';
 
-class JsonReactiveBuilder {
+class JsonListenableBuilder {
   final String? listenable;
   final String? builder;
 
-  JsonReactiveBuilder({
+  JsonListenableBuilder({
     this.listenable,
     this.builder,
   });
 
-  factory JsonReactiveBuilder.fromJson(Map json) {
+  factory JsonListenableBuilder.fromJson(Map json) {
     final key = json.keys.first;
-    if (key == null) return JsonReactiveBuilder();
+    if (key == null) return JsonListenableBuilder();
 
     final buffer = StringBuffer();
 
-    final listenable = json[key]['value'];
+    final listenable = json[key]['listenable'];
 
     if (listenable is List) {
       buffer.write('Listenable.merge([');
@@ -28,7 +28,7 @@ class JsonReactiveBuilder {
       buffer.write(JsonUIUtil.getState(listenable ?? ""));
     }
 
-    return JsonReactiveBuilder(
+    return JsonListenableBuilder(
       listenable: '$buffer',
       builder: '''
         (context, _){

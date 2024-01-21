@@ -62,8 +62,8 @@ StatefulWidget:
                       fontWeight: 500
                 - SizedBox:
                     height: 12
-                - ReactiveBuilder:
-                    value: "@@state.counter" #This will be injected
+                - ListenableBuilder:
+                    listenable: "@@state.counter" #This will be injected
                     child:
                       Text:
                         value: "${counter.value} times"
@@ -71,8 +71,8 @@ StatefulWidget:
                           fontSize: 20
                 - SizedBox:
                     height: 12
-                - ReactiveBuilder:
-                    value: ["@@state.multiplier", "@@state.counter"] #This will be injected
+                - ListenableBuilder:
+                    listenable: ["@@state.multiplier", "@@state.counter"] #This will be injected
                     child:
                       Text:
                         value: "${counter.value} x ${counter.value} is ${multiplier.value}"

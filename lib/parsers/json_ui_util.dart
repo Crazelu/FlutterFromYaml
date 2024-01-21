@@ -3,7 +3,7 @@ import 'package:flutter_from_yaml/parsers/column.dart';
 import 'package:flutter_from_yaml/parsers/floating_action_button.dart';
 import 'package:flutter_from_yaml/parsers/gesture_detector.dart';
 import 'package:flutter_from_yaml/parsers/icon.dart';
-import 'package:flutter_from_yaml/parsers/reactive_builder.dart';
+import 'package:flutter_from_yaml/parsers/listenable_builder.dart';
 import 'package:flutter_from_yaml/parsers/row.dart';
 import 'package:flutter_from_yaml/parsers/scaffold.dart';
 import 'package:flutter_from_yaml/parsers/sized_box.dart';
@@ -59,10 +59,10 @@ class JsonUIUtil {
         return JsonScaffold.fromJson(json).toString();
       case 'Icon':
         return JsonIcon.fromJson(json).toString();
-      case 'floatingActionButton':
+      case 'floatingActionButton' || 'FloatingActionButton':
         return JsonFloatingActionButton.fromJson(json).toString();
-      case 'ReactiveBuilder':
-        return JsonReactiveBuilder.fromJson(json).toString();
+      case 'ListenableBuilder':
+        return JsonListenableBuilder.fromJson(json).toString();
       case 'GestureDetector':
         return JsonGestureDetector.fromJson(json).toString();
       case 'SizedBox':
