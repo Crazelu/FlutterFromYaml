@@ -3,8 +3,13 @@ import 'package:flutter_from_yaml/parsers/json_ui_util.dart';
 class JsonGestureDetector {
   final String child;
   final String? onTap;
+  final bool bind;
 
-  JsonGestureDetector({required this.child, this.onTap});
+  JsonGestureDetector({
+    required this.child,
+    this.onTap,
+    this.bind = false,
+  });
 
   factory JsonGestureDetector.fromJson(Map json) {
     final key = json.keys.first;
@@ -13,6 +18,7 @@ class JsonGestureDetector {
     return JsonGestureDetector(
       child: JsonUIUtil.getWidgetStringFromJson(json[key]['child']),
       onTap: json[key]['onTap'],
+      bind: json[key]['bind'] ?? false,
     );
   }
 
@@ -21,7 +27,7 @@ class JsonGestureDetector {
     return '''
       GestureDetector(
         onTap: (){ 
-          ${onTap != null ? '$onTap' : ''}
+          ${bind ? '${JsonUIUtil.getFunction(onTap ?? '')}' : onTap != null ? '$onTap' : ''}
            },
         child: $child,
       )

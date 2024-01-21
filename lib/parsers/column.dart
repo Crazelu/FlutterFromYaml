@@ -17,50 +17,17 @@ class JsonColumn {
 
     return JsonColumn(
       children: JsonUIUtil.getWidgets(json[key]['children']),
-      mainAxisAlignment: _getAlignment(true, json[key]['mainAxisAlignment']),
-      crossAxisAlignment: _getAlignment(false, json[key]['crossAxisAlignment']),
+      mainAxisAlignment: json[key]['mainAxisAlignment'],
+      crossAxisAlignment: json[key]['crossAxisAlignment'],
     );
-  }
-
-  static _getAlignment(bool isMainAxisAlignment, String? alignment) {
-    switch (alignment) {
-      case 'start':
-        if (isMainAxisAlignment) return 'MainAxisAlignment.start';
-        return 'CrossAxisAlignment.start';
-      case 'center':
-        if (isMainAxisAlignment) return 'MainAxisAlignment.center';
-        return 'CrossAxisAlignment.center';
-      case 'end':
-        if (isMainAxisAlignment) return 'MainAxisAlignment.end';
-        return 'CrossAxisAlignment.end';
-      case 'spaceEvenly':
-        if (isMainAxisAlignment) return 'MainAxisAlignment.spaceEvenly';
-        return 'CrossAxisAlignment.center';
-      case 'baseline':
-        if (!isMainAxisAlignment) return 'CrossAxisAlignment.baseline';
-        return 'MainAxisAlignment.start';
-      case 'stretch':
-        if (!isMainAxisAlignment) return 'CrossAxisAlignment.stretch';
-        return 'MainAxisAlignment.start';
-      case 'spaceAround':
-        if (isMainAxisAlignment) return 'MainAxisAlignment.spaceAround';
-        return 'CrossAxisAlignment.center';
-      case 'spaceBetween':
-        if (isMainAxisAlignment) return 'MainAxisAlignment.spaceBetween';
-        return 'CrossAxisAlignment.center';
-
-      default:
-        if (isMainAxisAlignment) return 'MainAxisAlignment.start';
-        return 'CrossAxisAlignment.center';
-    }
   }
 
   @override
   String toString() {
     return '''
-Column(
-      mainAxisAlignment: ${mainAxisAlignment ?? 'MainAxisAlignment.start'},
-      crossAxisAlignment: ${crossAxisAlignment ?? 'CrossAxisAlignment.center'},
+    Column(
+      ${mainAxisAlignment != null ? 'mainAxisAlignment: MainAxisAlignment.$mainAxisAlignment,' : ''}
+       ${crossAxisAlignment != null ? 'crossAxisAlignment: CrossAxisAlignment.$crossAxisAlignment,' : ''}
       children: $children,
     )
 ''';

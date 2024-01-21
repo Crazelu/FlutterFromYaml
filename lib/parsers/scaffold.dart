@@ -17,12 +17,15 @@ class JsonScaffold {
     final key = json.keys.first;
     if (key == null) return JsonScaffold(body: 'const SizedBox()');
 
+    final appBarJson = json[key]['appBar'];
+    final floatingActionButtonJson = json[key]['floatingActionButton'];
+
     return JsonScaffold(
-      appBar: JsonAppBar.fronJson(json[key]['appBar']),
+      appBar: appBarJson == null ? null : JsonAppBar.fronJson(appBarJson),
       body: JsonUIUtil.getWidgetStringFromJson(json[key]['body']),
-      floatingActionButton: JsonFloatingActionButton.fromJson(
-        json[key]['floatingActionButton'],
-      ),
+      floatingActionButton: floatingActionButtonJson == null
+          ? null
+          : JsonFloatingActionButton.fromJson(floatingActionButtonJson),
     );
   }
 
@@ -30,7 +33,7 @@ class JsonScaffold {
   String toString() {
     return '''
       Scaffold(
-        appBar: $appBar,
+        ${appBar != null ? 'appBar: $appBar,' : ''}
         body: $body,
         ${floatingActionButton != null ? 'floatingActionButton: $floatingActionButton,' : ''}
       )

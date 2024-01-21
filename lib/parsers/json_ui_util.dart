@@ -11,12 +11,23 @@ import 'package:flutter_from_yaml/parsers/text.dart';
 
 class JsonUIUtil {
   JsonUIUtil._();
-  static final Map<String, Map> _states = {};
-  static Map? getState(String key) {
+  static final Map<String, String> _functions = {};
+
+  static String? getFunction(String key) {
+    return _functions[key];
+  }
+
+  static void setFunction(String key, String body) {
+    _functions[key] = body;
+  }
+
+  static final Map<String, String> _states = {};
+
+  static String? getState(String key) {
     return _states[key];
   }
 
-  static void setState(String key, Map state) {
+  static void setState(String key, String state) {
     _states[key] = state;
   }
 

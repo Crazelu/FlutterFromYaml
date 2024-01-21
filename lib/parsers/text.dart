@@ -25,10 +25,10 @@ class JsonText {
   @override
   String toString() {
     return '''
-Text('$data'
-${textAlign != null ? ', textAlign: TextAlign.$textAlign' : ''}
-${style != null ? ', style: $style,' : ''}
-)
+      Text("$data"
+      ${textAlign != null ? ', textAlign: TextAlign.$textAlign' : ''}
+      ${style != null ? ', style: $style,' : ''}
+      )
 ''';
   }
 }

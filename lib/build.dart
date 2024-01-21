@@ -41,17 +41,31 @@ void _parse(Map<String, dynamic> json) {
 }
 
 String _generateStateTemplate(Map json) {
-  final statefulWidget = json["StatefulWidget"];
-  final state = statefulWidget['state'];
-  JsonUIUtil.setState(stateKey, state);
+  final widgetJson = json["StatefulWidget"];
+  final states = List<Map>.from(widgetJson['state']);
+  final buffer = StringBuffer();
+
+  for (final entry in states) {
+    final stateName = entry.keys.first;
+    final state = entry[stateName];
+    JsonUIUtil.setState('@@state.$stateName', stateName);
+
+    buffer.write('''
+  final ValueNotifier<${state['type']}> $stateName = ValueNotifier(${state['defaultValue']});\n
+''');
+  }
   return '''
 
 
- class _${statefulWidget['name']}State extends State<${statefulWidget['name']}> {
+ class _${widgetJson['name']}State extends State<${widgetJson['name']}> {
 
-    ${_parseState(state)}
+    ${buffer.toString()}
 
-    ${_generateBuildTemplate(statefulWidget['build'])}
+    ${_generateStateFunctions(widgetJson)}
+
+${_generateDisposeMethod(widgetJson)}
+
+    ${_generateBuildTemplate(widgetJson['build'])}
 
   }
 
@@ -69,38 +83,34 @@ String _generateBuildTemplate(Map json) {
 ''';
 }
 
-String _parseState(Map json) {
-  return '''
-    final ValueNotifier<${json['type']}> ${json['name']} = ValueNotifier(${json['defaultValue']});
-
-${_generateStateMethods(json)}
-
-${_generateDisposeMethod(json)}
-''';
-}
-
-String _generateStateMethods(Map json) {
-  final methods = json['methods'] as Map;
+String _generateStateFunctions(Map json) {
+  final functions = json['functions'] as Map;
   final buffer = StringBuffer();
-  for (final entry in methods.entries) {
+  for (final entry in functions.entries) {
     final functionBody = '''
 ${entry.key}() {
   ${entry.value}
 }
 ''';
     buffer.write(functionBody);
+    JsonUIUtil.setFunction('@@function.${entry.key}', '${entry.key}();');
   }
   return buffer.toString();
 }
 
 String _generateDisposeMethod(Map json) {
   final calls = json['onDispose'] as List;
+  final states = List<Map>.from(json['state']);
   final buffer = StringBuffer();
 
   buffer.write('@override\nvoid dispose() {');
 
   for (final call in calls) {
     buffer.write('$call\n');
+  }
+
+  for (final state in states) {
+    buffer.write('${state.keys.first}.dispose();\n');
   }
 
   buffer.write('super.dispose();\n}');

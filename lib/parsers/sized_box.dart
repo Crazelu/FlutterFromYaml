@@ -21,10 +21,10 @@ class JsonSizedBox {
     }
 
     return '''
-const SizedBox(
-  ${width != null ? 'width: $width,' : ''}
-   ${height != null ? 'height: $height,' : ''}
-)
+    const SizedBox(
+      ${width != null ? 'width: $width,' : ''}
+      ${height != null ? 'height: $height,' : ''}
+    )
   ''';
   }
 }

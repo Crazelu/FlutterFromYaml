@@ -1,26 +1,32 @@
 StatefulWidget:
-  name: MyHomePage
+  name: GeneratedYamlHomePage
   state:
-    name: counter
-    type: int
-    defaultValue: 0
-    methods:
-      increment: "counter.value += 1;"
-      decrement: "counter.value -= 1;"
-    onDispose: 
-      - "counter.dispose();"
+    - counter:
+        type: int
+        defaultValue: 0
+    - multiplier:
+        type: String
+        defaultValue: "''"
+  functions:
+    increment: "counter.value += 1;"
+    decrement: "counter.value -= 1;"
+    multiply: "multiplier.value = (counter.value * counter.value).toString();"
+  onDispose: 
+    - "debugPrint('Dispose something else here. State objects are auto disposed now');"
   build:
     Scaffold:
       appBar:
         title: 
           Text:
-            value: "YAML Demo"
+            value: "Flutter From YAML Demo"
       floatingActionButton:
+        extended: true
         child:
           Row:
             children:
               - GestureDetector:
-                  onTap: "decrement();"
+                  bind: true
+                  onTap: "@@function.decrement" #This will be injected since 'bind' is true
                   child:
                     Icon:
                       iconData:
@@ -28,11 +34,20 @@ StatefulWidget:
               - SizedBox:
                     width: 12
               - GestureDetector:
-                  onTap: "increment();"
+                  bind: true
+                  onTap: "@@function.increment" #This will be injected since 'bind' is true
                   child:
                     Icon:
                       iconData:
                         codePoint: 0xe047
+              - SizedBox:
+                    width: 12
+              - GestureDetector:
+                  onTap: "multiply();" #This will NOT be injected since 'bind' is not true. Instead, the raw string will be written as onTap
+                  child:
+                    Icon:
+                      iconData:
+                        codePoint: 0xe16a
       body:
         Center:
           child:
@@ -40,7 +55,7 @@ StatefulWidget:
               mainAxisAlignment: center
               children:
                 - Text:
-                    value: "''Hello from Yaml\nYou've pressed this button''"
+                    value: "Hello from Yaml\\nYou've pressed this button"
                     textAlign: center
                     style:
                       fontSize: 24
@@ -48,9 +63,18 @@ StatefulWidget:
                 - SizedBox:
                     height: 12
                 - ReactiveBuilder:
-                    value: "@@state.reactive" #This will be injected
+                    value: "@@state.counter" #This will be injected
                     child:
                       Text:
                         value: "${counter.value} times"
+                        style:
+                          fontSize: 20
+                - SizedBox:
+                    height: 12
+                - ReactiveBuilder:
+                    value: ["@@state.multiplier", "@@state.counter"] #This will be injected
+                    child:
+                      Text:
+                        value: "${counter.value} x ${counter.value} is ${multiplier.value}"
                         style:
                           fontSize: 20

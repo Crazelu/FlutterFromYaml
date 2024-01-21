@@ -13,12 +13,27 @@ class JsonReactiveBuilder {
     final key = json.keys.first;
     if (key == null) return JsonReactiveBuilder();
 
+    final buffer = StringBuffer();
+
+    final listenable = json[key]['value'];
+
+    if (listenable is List) {
+      buffer.write('Listenable.merge([');
+      for (final item in listenable) {
+        final state = JsonUIUtil.getState(item ?? "");
+        buffer.write('$state,');
+      }
+      buffer.write('])');
+    } else {
+      buffer.write(JsonUIUtil.getState(listenable ?? ""));
+    }
+
     return JsonReactiveBuilder(
-      listenable: '${json[key]['value']}',
+      listenable: '$buffer',
       builder: '''
-(context, _){
-  return ${JsonUIUtil.getWidgetStringFromJson(json[key]['child'])};
-}
+        (context, _){
+          return ${JsonUIUtil.getWidgetStringFromJson(json[key]['child'])};
+        }
 ''',
     );
   }
@@ -28,8 +43,8 @@ class JsonReactiveBuilder {
     if (listenable == null || builder == null) {
       return 'const SizedBox()';
     }
-    return '''AnimatedBuilder(
-      animation: ${JsonUIUtil.getState(listenable ?? "")?['name']},
+    return '''ListenableBuilder(
+      listenable: $listenable,
       builder: $builder,
     )
 ''';

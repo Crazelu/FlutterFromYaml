@@ -1,10 +1,10 @@
 StatelessWidget:
-  name: MyHomePage
+  name: GeneratedYamlHomePage
   build:
     Scaffold:
       appBar:
         title: 
-          value: "YAML Demo"
+          value: "Flutter From YAML Demo"
       floatingActionButton:
         child:
           Icon:
