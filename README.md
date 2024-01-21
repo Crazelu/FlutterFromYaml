@@ -18,26 +18,26 @@ dart run lib/build.dart
 - Run the app on your device
 
 ## Supported Widgets ✅
-[x] Center
-[x] Column
-[x] FloatingActionButton
-[x] GestureDetector
-[x] Icon
-[x] ListeableBuilder
-[x] Row
-[x] Scaffold
-[x] AppBar
-[x] SizedBox
-[x] Text
-[x] StatelessWidget
-[x] StatefulWidget
-[ ] TextButton
-[ ] Container
-[ ] Image
+- [x] Center
+- [x] Column
+- [x] FloatingActionButton
+- [x] GestureDetector
+- [x] Icon
+- [x] ListeableBuilder
+- [x] Row
+- [x] Scaffold
+- [x] AppBar
+- [x] SizedBox
+- [x] Text
+- [x] StatelessWidget
+- [x] StatefulWidget
+- [ ] TextButton
+- [ ] Container
+- [ ] Image
 
 ## Supported injectable bindings 💉
-[x] State variables (implemented as ValueNotifiers) of a StatefulWidget. They are also auto disposed.
-[x] Functions defined for the State of a StatefulWidget
+- [x] State variables (implemented as ValueNotifiers) of a StatefulWidget which are also auto disposed.
+- [x] Functions defined for the State of a StatefulWidget
 
 ### Bindings in YAML
 ```yaml
@@ -94,6 +94,76 @@ Then use in widgets like so:
             Icon:
                 iconData:
                 codePoint: 0xe047
+```
+
+Generated Dart code:
+```dart
+ ...
+  //collapsed some code
+ ...
+  final ValueNotifier<int> counter = ValueNotifier(0);
+
+  final ValueNotifier<String> multiplier = ValueNotifier('');
+
+  increment() {
+    counter.value += 1;
+  }
+
+  decrement() {
+    counter.value -= 1;
+  }
+  ...
+  //collapsed some code
+  ...
+  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Hello from Yaml\nYou've pressed this button",
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          ListenableBuilder(
+            listenable: counter,
+            builder: (context, _) {
+              return Text(
+                "${counter.value} times",
+                style: const TextStyle(fontSize: 20),
+              );
+            },
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          ListenableBuilder(
+            listenable: Listenable.merge([
+              multiplier,
+              counter,
+            ]),
+            builder: (context, _) {
+              return Text(
+                "${counter.value} x ${counter.value} is ${multiplier.value}",
+                style: const TextStyle(fontSize: 20),
+              );
+            },
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          GestureDetector(
+            onTap: () {
+            increment();
+            },
+            child: const Icon(IconData(57415, fontFamily: 'MaterialIcons')),
+           ),
+        ],
+      )
 ```
 
 ## Contributions 🫱🏾‍🫲🏼
